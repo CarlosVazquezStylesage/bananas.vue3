@@ -9,6 +9,7 @@
     {{ brewery.name }} - {{ brewery.city }} - {{ brewery.phone }}
   </div>
   <div v-if="selectedBrewery">
+    <button @click="rateBrewery" :disabled="!enableRateButton">Rate</button>
     <pre>{{ selectedBrewery }}</pre>
   </div>
 </template>
@@ -29,9 +30,13 @@ export default {
     breweryURLEndpoint() {
       return `https://api.openbrewerydb.org/breweries?by_city=${this.searchCityField}`;
     },
+    enableRateButton() {
+      return this.searchCityField === "colorado";
+    },
   },
   watch: {
     searchCityField() {
+      this.selectedBrewery = undefined;
       this.getBreweries();
     },
   },
@@ -46,6 +51,9 @@ export default {
     },
     selectBrewery(brewery) {
       this.selectedBrewery = brewery;
+    },
+    rateBrewery() {
+      alert("rated!");
     },
   },
   created() {
