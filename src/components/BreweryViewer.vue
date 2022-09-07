@@ -13,51 +13,42 @@
     <pre>{{ selectedBrewery }}</pre>
   </div>
 </template>
-<script>
-export default {
-  data: () => ({
-    breweries: [],
-    selectedBrewery: undefined,
-    searchCityField: undefined,
-    onlyOdd: false,
-  }),
-  computed: {
-    visibleBreweries() {
-      return this.onlyOdd
-        ? this.breweries.filter((brewery) => brewery.phone % 2 !== 0)
-        : this.breweries;
-    },
-    breweryURLEndpoint() {
-      return `https://api.openbrewerydb.org/breweries?by_city=${this.searchCityField}`;
-    },
-    enableRateButton() {
-      return this.searchCityField === "colorado";
-    },
-  },
-  watch: {
-    searchCityField() {
-      this.selectedBrewery = undefined;
-      this.getBreweries();
-    },
-  },
-  methods: {
-    getBreweries() {
-      fetch(this.breweryURLEndpoint)
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-          this.breweries = res;
-        });
-    },
-    selectBrewery(brewery) {
-      this.selectedBrewery = brewery;
-    },
-    rateBrewery() {
-      alert("rated!");
-    },
-  },
-  created() {
-    this.getBreweries();
-  },
+<script setup>
+import { ref, computed, watch, onMounted } from "vue";
+// get breweries
+const breweries = ref([]);
+const searchCityField = ref(undefined);
+const breweryURLEndpoint = computed(
+  () =>
+    `https://api.openbrewerydb.org/breweries?by_city=${searchCityField.value}`
+);
+const getBreweries = () => {
+  selectedBrewery.value = undefined;
+  fetch(breweryURLEndpoint.value)
+    .then((res) => res.json())
+    .then((res) => {
+      console.log(res);
+      breweries.value = res;
+    });
 };
+watch(searchCityField, () => getBreweries());
+
+//Selected brewery
+const selectedBrewery = ref(undefined);
+const selectBrewery = (brewery) => (selectedBrewery.value = brewery);
+
+// Odd phones
+const onlyOdd = ref(false);
+const visibleBreweries = computed(() =>
+  onlyOdd.value
+    ? breweries.value.filter((brewery) => brewery.phone % 2 !== 0)
+    : breweries.value
+);
+// Rate brewery
+const enableRateButton = computed(() => searchCityField.value === "colorado");
+const rateBrewery = () => alert("rated!");
+
+onMounted(() => {
+  getBreweries();
+});
 </script>
