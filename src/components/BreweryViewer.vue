@@ -17,31 +17,16 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed } from "vue";
+import { useFetch } from "../utils/fetch";
+
 // get breweries
-const breweries = ref([]);
-const loading = ref(false);
 const searchCityField = ref(undefined);
 const breweryURLEndpoint = computed(
   () =>
     `https://api.openbrewerydb.org/breweries?by_city=${searchCityField.value}`
 );
-const getBreweries = () => {
-  selectedBrewery.value = undefined;
-  loading.value = true;
-  setTimeout(
-    () =>
-      fetch(breweryURLEndpoint.value)
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res);
-          breweries.value = res;
-          loading.value = false;
-        }),
-    2000
-  );
-};
-watch(searchCityField, () => getBreweries());
+const { loading, data: breweries } = useFetch(breweryURLEndpoint, []);
 
 //Selected brewery
 const selectedBrewery = ref(undefined);
@@ -57,8 +42,4 @@ const visibleBreweries = computed(() =>
 // Rate brewery
 const enableRateButton = computed(() => searchCityField.value === "colorado");
 const rateBrewery = () => alert("rated!");
-
-onMounted(() => {
-  getBreweries();
-});
 </script>
