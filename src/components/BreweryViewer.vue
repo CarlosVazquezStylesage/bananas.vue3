@@ -1,5 +1,6 @@
 <template>
   <h1>Breweries</h1>
+  <h3>Breweries Rated: {{ numBreweriesRated }}</h3>
   <input type="text" placeholder="search by city" v-model="searchCityField" />
   <input
     type="checkbox"
@@ -30,6 +31,7 @@ export default {
     selectedBrewery: undefined,
     searchCityField: undefined,
     onlyOdd: false,
+    numBreweriesRated: 0,
   }),
   computed: {
     visibleBreweries() {
@@ -63,7 +65,7 @@ export default {
       this.selectedBrewery = brewery;
     },
     rateBrewery() {
-      alert("rated!");
+      this.numBreweriesRated = this.numBreweriesRated + 1;
     },
   },
   created() {
