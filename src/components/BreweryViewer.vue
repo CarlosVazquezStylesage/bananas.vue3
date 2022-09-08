@@ -1,5 +1,6 @@
 <template>
   <h1>Breweries</h1>
+  <h3>breweries rated {{ numBreweriesRated }}</h3>
   <input type="text" placeholder="search by city" v-model="searchCityField" />
   <input
     type="checkbox"
@@ -67,8 +68,9 @@ const visibleBreweries = computed(() =>
 );
 
 // Rate brewery
+const numBreweriesRated = ref(0);
 const enableRateButton = computed(() => searchCityField.value === "colorado");
-const rateBrewery = () => alert("rated!");
+const rateBrewery = () => numBreweriesRated.value++;
 
 onMounted(() => {
   getBreweries();
