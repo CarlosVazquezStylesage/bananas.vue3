@@ -1,5 +1,6 @@
 <template>
   <h1>Breweries</h1>
+  <h3>breweries rated {{ numBreweriesRated }}</h3>
   <input type="text" placeholder="search by city" v-model="searchCityField" />
   <input
     type="checkbox"
@@ -21,7 +22,7 @@
       {{ brewery.name }} - {{ brewery.city }} - {{ brewery.phone }}
     </div>
     <div v-if="selectedBrewery">
-      <button @click="rateBrewery" :disabled="!enableRateButton">Rate</button>
+      <button @click="rateBrewery()" :disabled="!enableRateButton">Rate</button>
       <pre>{{ selectedBrewery }}</pre>
     </div>
   </div>
@@ -29,6 +30,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useFetch } from "../utils/fetch";
+import { useCounter } from "../utils/counter";
 
 // get breweries
 const searchCityField = ref(undefined);
@@ -51,5 +53,5 @@ const visibleBreweries = computed(() =>
 );
 // Rate brewery
 const enableRateButton = computed(() => searchCityField.value === "colorado");
-const rateBrewery = () => alert("rated!");
+const { counter: numBreweriesRated, increment: rateBrewery } = useCounter();
 </script>
