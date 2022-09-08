@@ -53,5 +53,7 @@ const visibleBreweries = computed(() =>
 );
 // Rate brewery
 const enableRateButton = computed(() => searchCityField.value === "colorado");
-const { counter: numBreweriesRated, increment: rateBrewery } = useCounter();
+const { counter: numBreweriesRated, increment: rateBrewery } = useCounter({
+  max: 3,
+});
 </script>
