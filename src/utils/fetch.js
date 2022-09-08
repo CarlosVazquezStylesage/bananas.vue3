@@ -1,6 +1,6 @@
 import { isRef, ref, unref, watch } from "vue";
 
-export function useFetch(url, initialValue) {
+export function useFetch(urlMaybeRef, initialValue) {
   const loading = ref(false);
   const data = ref(initialValue);
 
@@ -8,7 +8,7 @@ export function useFetch(url, initialValue) {
     loading.value = true;
     setTimeout(
       () =>
-        fetch(unref(url))
+        fetch(unref(urlMaybeRef))
           .then((res) => res.json())
           .then((res) => {
             data.value = res;
@@ -17,8 +17,8 @@ export function useFetch(url, initialValue) {
       1000
     );
   };
-  if (isRef(url)) {
-    watch(url, () => fetchData());
+  if (isRef(urlMaybeRef)) {
+    watch(urlMaybeRef, () => fetchData());
   } else {
     fetchData();
   }
