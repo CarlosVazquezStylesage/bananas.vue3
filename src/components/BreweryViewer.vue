@@ -1,13 +1,23 @@
 <template>
   <h1>Breweries</h1>
   <input type="text" placeholder="search by city" v-model="searchCityField" />
-  <input type="checkbox" label="Only odd" id="only-odd" v-model="onlyOdd" style="margin-left: 8px" />
+  <input
+    type="checkbox"
+    label="Only odd"
+    id="only-odd"
+    v-model="onlyOdd"
+    style="margin-left: 8px"
+  />
   <label for="only-odd">Only Odd</label>
   <div v-if="loading">Loading...</div>
   <div v-else>
     <div>Showing {{ visibleBreweries.length }} of {{ breweries.length }}</div>
     ---
-    <div v-for="brewery in visibleBreweries" :key="brewery.id" @click="selectBrewery(brewery)">
+    <div
+      v-for="brewery in visibleBreweries"
+      :key="brewery.id"
+      @click="selectBrewery(brewery)"
+    >
       {{ brewery.name }} - {{ brewery.city }} - {{ brewery.phone }}
     </div>
     <div v-if="selectedBrewery">

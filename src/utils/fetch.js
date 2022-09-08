@@ -5,7 +5,6 @@ export function useFetch(url, initialValue) {
   const data = ref(initialValue);
 
   const fetchData = () => {
-    console.log("ENTRA");
     loading.value = true;
     setTimeout(
       () =>
