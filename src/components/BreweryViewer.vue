@@ -25,7 +25,8 @@
 </template>
 <script setup>
 import { ref, computed, watch, onMounted } from "vue";
-// get breweries
+
+// Get breweries
 const breweries = ref([]);
 const searchCityField = ref(undefined);
 const breweryURLEndpoint = computed(
@@ -54,6 +55,7 @@ const visibleBreweries = computed(() =>
     ? breweries.value.filter((brewery) => brewery.phone % 2 !== 0)
     : breweries.value
 );
+
 // Rate brewery
 const enableRateButton = computed(() => searchCityField.value === "colorado");
 const rateBrewery = () => alert("rated!");
