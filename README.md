@@ -1,6 +1,9 @@
 # bananas-vue3
 
-This template should help get you started developing with Vue 3 in Vite.
+This repo is an example to see how composition API, script setup and composables improve how we write components (BreweryViewer.vue) with Options API. There are 3 branches:
+- options-api: base example with options API
+- composition-api: move code to composition API but no composables
+- composables: create 2 composables with options and use it main component
 
 ## Recommended IDE Setup
 
