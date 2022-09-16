@@ -10,18 +10,21 @@
     style="margin-left: 8px"
   />
   <label for="only-odd">Only Odd</label>
-  <div>Showing {{ visibleBreweries.length }} of {{ breweries.length }}</div>
-  ---
-  <div
-    v-for="brewery in visibleBreweries"
-    :key="brewery.id"
-    @click="selectBrewery(brewery)"
-  >
-    {{ brewery.name }} - {{ brewery.city }} - {{ brewery.phone }}
-  </div>
-  <div v-if="selectedBrewery">
-    <button @click="rateBrewery" :disabled="!enableRateButton">Rate</button>
-    <pre>{{ selectedBrewery }}</pre>
+  <div v-if="loading">Loading...</div>
+  <div v-else>
+    <div>Showing {{ visibleBreweries.length }} of {{ breweries.length }}</div>
+    ---
+    <div
+      v-for="brewery in visibleBreweries"
+      :key="brewery.id"
+      @click="selectBrewery(brewery)"
+    >
+      {{ brewery.name }} - {{ brewery.city }} - {{ brewery.phone }}
+    </div>
+    <div v-if="selectedBrewery">
+      <button @click="rateBrewery" :disabled="!enableRateButton">Rate</button>
+      <pre>{{ selectedBrewery }}</pre>
+    </div>
   </div>
 </template>
 <script>
@@ -32,6 +35,7 @@ export default {
     searchCityField: undefined,
     onlyOdd: false,
     numBreweriesRated: 0,
+    loading: false,
   }),
   computed: {
     visibleBreweries() {
@@ -54,11 +58,12 @@ export default {
   },
   methods: {
     getBreweries() {
+      this.loading = true;
       fetch(this.breweryURLEndpoint)
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
           this.breweries = res;
+          this.loading = false;
         });
     },
     selectBrewery(brewery) {
