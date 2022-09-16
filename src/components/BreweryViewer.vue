@@ -46,7 +46,6 @@ const getBreweries = () => {
       fetch(breweryURLEndpoint.value)
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
           breweries.value = res;
           loading.value = false;
         }),
